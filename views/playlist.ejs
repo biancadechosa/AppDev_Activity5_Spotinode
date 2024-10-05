@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+    <title><%= playlist.name %></title>
+</head>
+<body>
+    <header>
+        <h1>Spotinode</h1>
+        <h2><%= playlist.name %></h2>
+        <form action="/playlist/<%= playlistId %>/songs" method="POST" enctype="multipart/form-data">
+            <input type="text" name="title" placeholder="Song Title" required>
+            <input type="text" name="singer" placeholder="Singer" required>
+            <input type="file" name="song_file" accept="audio/*" required>
+            <button type="submit">Add Song</button>
+        </form>
+        <!-- Back Button -->
+        <a href="/" class="back-button">Back to Playlists</a>
+    </header>
+
+    <div class="playlist">
+        <h3>Songs in <%= playlist.name %></h3>
+        <ul>
+            <% spotinode.forEach(song => { %>
+                <li class="song-item">
+                    <h4><%= song.title %> by <%= song.singer %></h4>
+                    <audio controls>
+                        <source src="<%= song.song_path %>" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <div class="dropdown">
+                        <!-- Replace the button with a delete icon -->
+                        <div class="dropdown-content">
+                            <form action="/song/delete/<%= song.id %>" method="POST">
+                                <input type="hidden" name="playlistId" value="<%= playlistId %>">
+                                <button type="submit">Delete from Playlist</button>
+                            </form>
+                        </div>
+                    </div>
+                </li>
+            <% }); %>
+        </ul>
+    </div>
+</body>
+</html>

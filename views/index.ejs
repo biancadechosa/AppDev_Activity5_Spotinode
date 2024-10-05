@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+    <title>Spotinode</title>
+</head>
+<body>
+    <header>
+        <h1>Spotinode</h1>
+        <form action="/playlist" method="POST">
+            <input type="text" name="name" placeholder="Playlist Name" required>
+            <button type="submit">Add Playlist</button>
+        </form>
+    </header>
+    
+    <h2>Playlists</h2>
+    <div class="playlists-container">
+        <div class="playlists-grid">
+            <% playlist.forEach(playlist => { %>
+                <div class="playlist-card">
+                    <div>
+                        <strong><%= playlist.name %></strong>
+                    </div>
+                    <div class="dropdown">
+                        <div class="dropdown-content">
+                            <form action="/playlist/<%= playlist.id %>/songs" method="GET">
+                                <button type="submit" class="play-button">Play Songs</button>
+                            </form>
+                            <form action="/playlist/edit/<%= playlist.id %>" method="POST" style="display:inline;">
+                                <input type="text" name="name" value="<%= playlist.name %>" required>
+                                <button type="submit">Edit Playlist Name</button>
+                            </form>
+                            <form action="/playlist/delete/<%= playlist.id %>" method="POST" style="display:inline;">
+                                <button type="submit">Delete Playlist</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+    
+</body>
+</html>
